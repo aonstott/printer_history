@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Printer History</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Page Counts</a>
+        <a href="#about">Jams</a>
+        <a href="#services">History</a>
+        <a href="{{ url_for('static', filename='html/funny.html') }}" id="urgent">Shut Down All Printers</a>
+        <!-- Add more links as needed -->
+    </div>
+    <h1>Printers</h1>
+    <label for="timeframe">Select Time Frame:</label>
+    <select id="timeframe">
+        <option value="last_day">Last Day</option>
+        <option value="last_week">Last Week</option>
+        <option value="last_month">Last Month</option>
+        <option value="last_year">Last Year</option>
+    </select>
+    <button onclick="navigateToSelectedURL()">Submit</button>
+    <table>
+        <thead>
+            <tr>
+                {% for column_name in column_names %}
+                <th>{{ column_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {%for row in output%}
+        <tr>
+            {%for item in row%}
+            <td>{{item}}</td>
+            {%endfor%}
+        </tr>
+        {%endfor%}
+    </tbody>
+    </table>
+</body>
+</html>
