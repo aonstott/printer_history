@@ -14,14 +14,10 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
 
-@app.route('/')
+@app.route('/') 
 def index():
     # Call your Python program and get the output
-    functions = Main()
-    output = functions.get_sorted_printers()  # Replace this with your Python function that generates output
-    column_names = ['Rank', 'Printer Name', 'Location', 'Pages Per Day']
-
-    return render_template('index.html', output=output, column_names=column_names)
+    return render_template('home.html')
 
 @app.route('/pages-week')
 def pages_last_week():
@@ -58,6 +54,26 @@ def pages_last_year():
     column_names = ['Rank', 'Printer Name', 'Location', 'Pages Per Day'] 
 
     return render_template('index.html', output=output, column_names=column_names)
+
+@app.route('/printer/<printer_name>')
+def printer_detail(printer_name):
+    # Find the printer data by name
+    functions = Main()
+    printer_names = functions.get_printer_names()
+
+    photos = {
+        "HP Color LaserJet CP4025":"hp_cp4025.jpg",
+        "KM Bizhub C3100P":"c3100p.jpg"
+    }
+
+    printer = next((p for p in printer_names if p == printer_name), None)
+    if printer:
+        printer_model = functions.get_printer_model(printer)
+        if printer_model in photos:
+            photo = photos[printer_model]
+        return render_template('printer.html', printer=printer, printer_model=printer_model, photo=photo)
+    else:
+        return "Printer not found", 404
 
 if __name__ == '__main__':
     app.run(debug=True)

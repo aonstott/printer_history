@@ -8,11 +8,11 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="/">Page Counts</a>
+        <a href="/">Home</a>
+        <a href="/pages-week">Page Counts</a>
         <a href="#about">Jams</a>
         <a href="#services">History</a>
         <a href="{{ url_for('static', filename='html/funny.html') }}" id="urgent">Shut Down All Printers</a>
-        <!-- Add more links as needed -->
     </div>
     <h1>Printers</h1>
     <label for="timeframe">Select Time Frame:</label>
@@ -35,7 +35,7 @@
         {%for row in output%}
         <tr>
             {%for item in row%}
-            <td>{{item}}</td>
+            <td><a class="printer-link" href="/printer/{{row[1]}}">{{item}}</a></td>
             {%endfor%}
         </tr>
         {%endfor%}

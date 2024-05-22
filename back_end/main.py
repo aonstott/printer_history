@@ -24,4 +24,18 @@ class Main:
         self.data = self.printer_report.make_data(self.printer_ids, date)
         self.sorted_printers = self.printer_report.sort_by_pg_count(self.data)
         return self.printer_report.make_table_data(self.sorted_printers)
+
+    def get_printer_names(self):
+        self.data = self.printer_report.make_data(self.printer_ids)
+        self.sorted_printers = self.printer_report.sort_by_pg_count(self.data)
+        printer_names = []
+        for printer in self.sorted_printers:
+            printer_names.append(self.db_access.get_printer_name(printer[1]))
+        return printer_names
+    
+    def get_printer_model(self, printer_name:str):
+        for printer in self.sorted_printers:
+            if self.db_access.get_printer_name(printer[1]) == printer_name:
+                return self.db_access.get_printer_model(printer[1])
+        return None
         

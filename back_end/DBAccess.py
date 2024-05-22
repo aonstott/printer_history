@@ -69,4 +69,11 @@ class DBAccess:
         cursor.execute("SELECT completename FROM glpi_locations WHERE id = (SELECT locations_id FROM glpi_printers WHERE id = " + str(printer_id) + ")")
         rows = cursor.fetchall()
         return rows[0][0] 
+    
+    def get_printer_model(self, printer_id):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT name FROM glpi_printermodels WHERE id = (SELECT printermodels_id FROM glpi_printers WHERE id = " + str(printer_id) + ")")
+        rows = cursor.fetchall()
+        return rows[0][0]
+    
 

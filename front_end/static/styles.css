@@ -50,3 +50,12 @@ body {
     float: left;
     display: block;
 }
+
+.printer-link {
+    text-decoration: none;
+    color: white;
+}
+
+#runaway-button {
+    position: relative;
+}
