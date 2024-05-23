@@ -63,7 +63,21 @@ def printer_detail(printer_name):
 
     photos = {
         "HP Color LaserJet CP4025":"hp_cp4025.jpg",
-        "KM Bizhub C3100P":"c3100p.jpg"
+        "KM Bizhub C3100P":"c3100p.jpg",
+        "HP Color LaserJet CP4525":"hp_cp4525.jpg",
+        "KM Bizhub C3350i": "bizhub_c3350i.jpg",
+        "KM Bizhub C3351": "bizhub_c335i.jpg",
+        "KM Bizhub C458": "kmc458.jpg",
+        "HP LaserJet P3005": "hp_p3005.jpg",
+        "HP LaserJet P3015": "hp_p3015.jpg",
+        "HP LaserJet P4014": "hp_p4014.jpg",
+        "HP LaserJet P4015": "hp_p4014.jpg",
+        "HP LaserJet 4240": "hp_4240.jpg",
+        "HP LaserJet 4250": "hp_4250.jpg",
+        "HP Color LaserJet M750": "hp_m750.jpg",
+        "HP Color LaserJet M751": "hp_m751.jpg",
+        "HP LaserJet P3010 Series": "hp_p3015.jpg",
+        "HP LaserJet 2430": "hp_2430.jpg",
     }
 
     printer = next((p for p in printer_names if p == printer_name), None)
