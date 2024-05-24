@@ -26,6 +26,29 @@ class PrinterReport:
                     data[printer_id] = [point]
 
         return data
+    
+    def make_jam_data(self, printer_ids:list):
+        data = {}
+        for printer_id in printer_ids:
+            jams_num = self.db_access.get_jam_count(printer_id)
+            data[printer_id] = jams_num
+        #sort by highest jam count
+        data = dict(sorted(data.items(), key=lambda item: item[1], reverse=True))
+        return data
+    
+    def make_jams_table(self, data:dict):
+        table_data = []
+        rank = 1
+        for printer in data:
+            name = self.db_access.get_printer_name(printer)
+            location = self.db_access.get_printer_location(printer)
+            table_data.append((rank, name, location, data[printer]))
+            rank += 1
+        
+        return table_data
+    
+
+
 
     #This is horrible and convoluted I am terrible at programming
     def sort_by_pg_count(self, data:dict[list[tuple]]):
@@ -36,6 +59,7 @@ class PrinterReport:
                 continue
             increase = self.get_increase(data, printer)
             if len(increase) == 0:
+                pq.put((0, printer))
                 continue
             start_day = data[printer][0][0]
             end_day = data[printer][-1][0]
@@ -55,7 +79,7 @@ class PrinterReport:
         rank = len(top_printers)
         for printer in top_printers:
             name = self.db_access.get_printer_name(printer[1])
-            location = self.db_access.get_location_name(printer[1])
+            location = self.db_access.get_printer_location(printer[1])
             table_data.append((rank, name, location, round(printer[0], 1)))
             rank -= 1
         
@@ -81,7 +105,7 @@ class PrinterReport:
             printer_name = self.db_access.get_printer_name(printer_id)
             daily_increase = self.get_increase(data, printer_id)
             dates = self.get_dates(data, printer_id)
-            location = self.db_access.get_location_name(printer_id)
+            location = self.db_access.get_printer_location(printer_id)
             plt.plot(dates, daily_increase, label=location, marker='o')
         
         plt.xlabel('Date')
@@ -104,13 +128,13 @@ class PrinterReport:
             file.write("Top 5 Printers\n")
             for printer in top_5:
                 name = self.db_access.get_printer_name(printer[1])
-                location = self.db_access.get_location_name(printer[1])
+                location = self.db_access.get_printer_location(printer[1])
                 file.write(name + " at " + location + " with an average increase of " + str(printer[0]) + " pages per day\n")
             
             file.write("\nBottom 5 Printers\n")
             for printer in bottom_5:
                 name = self.db_access.get_printer_name(printer[1])
-                location = self.db_access.get_location_name(printer[1])
+                location = self.db_access.get_printer_location(printer[1])
                 file.write(name + " at " + location + " with an average increase of " + str(printer[0]) + " pages per day\n")
 
             file.close()

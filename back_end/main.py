@@ -38,4 +38,13 @@ class Main:
             if self.db_access.get_printer_name(printer[1]) == printer_name:
                 return self.db_access.get_printer_model(printer[1])
         return None
+    
+    def get_printer_location(self, printer_name:str):
+        for printer in self.sorted_printers:
+            if self.db_access.get_printer_name(printer[1]) == printer_name:
+                return self.db_access.get_printer_location(printer[1])
+        return None
+    
+    def get_printer_jams(self):
+        return self.printer_report.make_jams_table(self.printer_report.make_jam_data(self.printer_ids))
         

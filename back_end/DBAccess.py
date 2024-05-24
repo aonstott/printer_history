@@ -64,7 +64,7 @@ class DBAccess:
         rows = cursor.fetchall()
         return [row[0] for row in rows]
     
-    def get_location_name(self, printer_id):
+    def get_printer_location(self, printer_id):
         cursor = self.conn.cursor()
         cursor.execute("SELECT completename FROM glpi_locations WHERE id = (SELECT locations_id FROM glpi_printers WHERE id = " + str(printer_id) + ")")
         rows = cursor.fetchall()
@@ -73,6 +73,12 @@ class DBAccess:
     def get_printer_model(self, printer_id):
         cursor = self.conn.cursor()
         cursor.execute("SELECT name FROM glpi_printermodels WHERE id = (SELECT printermodels_id FROM glpi_printers WHERE id = " + str(printer_id) + ")")
+        rows = cursor.fetchall()
+        return rows[0][0]
+    
+    def get_jam_count(self, printer_id):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT jamcountfield FROM glpi_plugin_fields_printerlowtonerwarnings WHERE items_id = " + str(printer_id))
         rows = cursor.fetchall()
         return rows[0][0]
     

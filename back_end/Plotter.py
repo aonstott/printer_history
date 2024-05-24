@@ -13,7 +13,7 @@ class Plotter:
         for printer_id in printer_ids:
             daily_increase = self.printer_report.get_increase(data, printer_id)
             dates = self.printer_report.get_dates(data, printer_id)
-            location = self.db_access.get_location_name(printer_id)
+            location = self.db_access.get_printer_location(printer_id)
             plt.plot(dates, daily_increase, label=location, marker='o')
         
         plt.xlabel('Date')

@@ -10,17 +10,17 @@
     <div class="navbar">
         <a href="/">Home</a>
         <a href="/pages-week">Page Counts</a>
-        <a href="#about">Jams</a>
+        <a href="/jams">Jams</a>
         <a href="#services">History</a>
         <a href="{{ url_for('static', filename='html/funny.html') }}" id="urgent">Shut Down All Printers</a>
     </div>
     <h1>Printers</h1>
     <label for="timeframe">Select Time Frame:</label>
     <select id="timeframe">
-        <option value="last_day">Last Day</option>
-        <option value="last_week">Last Week</option>
-        <option value="last_month">Last Month</option>
-        <option value="last_year">Last Year</option>
+        <option value="last_day" {{s1}}>Last Day</option>
+        <option value="last_week" {{s2}}>Last Week</option>
+        <option value="last_month" {{s3}}>Last Month</option>
+        <option value="last_year" {{s4}}>Last Year</option>
     </select>
     <button onclick="navigateToSelectedURL()">Submit</button>
     <table>
