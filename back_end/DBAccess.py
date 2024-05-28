@@ -82,4 +82,12 @@ class DBAccess:
         rows = cursor.fetchall()
         return rows[0][0]
     
+    def get_jam_printer_ids(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT items_id FROM glpi_plugin_fields_printerlowtonerwarnings")
+        rows = cursor.fetchall()
+        return [row[0] for row in rows]
+    
+    
+    
 
