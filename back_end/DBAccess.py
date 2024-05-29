@@ -7,6 +7,7 @@ class DBAccess:
         self.host = host
         self.port = port
         self.database = database
+        self.connect()
     
     def connect(self):
         try:
@@ -88,6 +89,12 @@ class DBAccess:
         rows = cursor.fetchall()
         return [row[0] for row in rows]
     
+    def get_printer_id_from_name(self, printer_name):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id FROM glpi_printers WHERE name = '" + printer_name + "'")
+        rows = cursor.fetchall()
+        return rows[0][0]
     
+
     
 

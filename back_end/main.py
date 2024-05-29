@@ -4,15 +4,16 @@ from .DBAccess import DBAccess
 from .Plotter import Plotter
 import matplotlib.pyplot as plt
 import datetime
+from .jam_db import JamDB
 
 class Main:
     def __init__(self):
         credentials = Credentials()
         self.db_access = DBAccess(credentials.username, credentials.password, credentials.host, credentials.port, credentials.database)
-        self.db_access.connect()
         self.printer_report = PrinterReport(self.db_access)
-        self.plotter = Plotter(self.printer_report, self.db_access)
+        self.plotter = Plotter()
         self.printer_ids = self.db_access.get_express_ids()
+        self.jam_db = JamDB(self.db_access)    
     
     def get_sorted_printers(self):
         last_week = datetime.datetime.now() - datetime.timedelta(days=7)
@@ -33,18 +34,17 @@ class Main:
             printer_names.append(self.db_access.get_printer_name(printer[1]))
         return printer_names
     
-    def get_printer_model(self, printer_name:str):
-        for printer in self.sorted_printers:
-            if self.db_access.get_printer_name(printer[1]) == printer_name:
-                return self.db_access.get_printer_model(printer[1])
-        return None
+    def get_printer_model(self, printer_id:int):
+        return self.db_access.get_printer_model(printer_id)
     
-    def get_printer_location(self, printer_name:str):
-        for printer in self.sorted_printers:
-            if self.db_access.get_printer_name(printer[1]) == printer_name:
-                return self.db_access.get_printer_location(printer[1])
-        return None
+    def get_printer_location(self, printer_id:int):
+        return self.db_access.get_printer_location(printer_id)
     
     def get_printer_jams(self):
         return self.printer_report.make_jams_table(self.printer_report.make_jam_data(self.printer_ids))
-        
+    
+    def get_jams_for_printer(self, printer_id:int):
+        return self.jam_db.get_jams_for_printer(printer_id)
+    
+    def plot_jams(self, printer_id:int):
+        return self.plotter.plot_jams(printer_id)

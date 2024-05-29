@@ -19,6 +19,14 @@
     <p>Printer Model: {{ printer_model }}</p>
     <p>Printer Location: {{ location }}</p>
     <img src="{{ url_for('static', filename='printer-pics/' + photo) }}" width="500px" alt="Printer" class="center">
+
+    <h1>Jams</h1>
+    {% for jam in printer_jams %}
+    <p>{{ jam }}</p>
+    {% endfor %}
+
+    <img src="data:image/png;base64,{{ plot_img }}" alt="Graph of printer jams" class="center">
+
     
 </body>
 </html>

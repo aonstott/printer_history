@@ -34,12 +34,12 @@
         <tbody>
         {%for row in output%}
         <tr>
-            {%for item in row%}
-            <td><a class="printer-link" href="/printer/{{row[1]}}">{{item}}</a></td>
+            {%for item in row[1]%}
+            <td><a class="printer-link" href="/printer/{{row[0]}}">{{item}}</a></td>
             {%endfor%}
         </tr>
         {%endfor%}
     </tbody>
-    </table>
+</table>
 </body>
 </html>

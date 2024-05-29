@@ -42,7 +42,7 @@ class PrinterReport:
         for printer in data:
             name = self.db_access.get_printer_name(printer)
             location = self.db_access.get_printer_location(printer)
-            table_data.append((rank, name, location, data[printer]))
+            table_data.append([printer, (rank, name, location, data[printer])])
             rank += 1
         
         return table_data
@@ -80,7 +80,7 @@ class PrinterReport:
         for printer in top_printers:
             name = self.db_access.get_printer_name(printer[1])
             location = self.db_access.get_printer_location(printer[1])
-            table_data.append((rank, name, location, round(printer[0], 1)))
+            table_data.append([printer[1], (rank, name, location, round(printer[0], 1))])
             rank -= 1
         
         #Reverse the list so that the top printer is at the top

@@ -23,7 +23,11 @@ def index():
 def pages_last_week():
     functions = Main()
     last_week = datetime.datetime.now() - datetime.timedelta(days=7)
+    #raw_data = functions.get_pages_printed_since(last_week.strftime("%Y-%m-%d"))
+    #output = [entry[1] for entry in raw_data]
+    #printer_ids = [entry[0] for entry in raw_data]
     output = functions.get_pages_printed_since(last_week.strftime("%Y-%m-%d"))
+
     column_names = ['Rank', 'Printer Name', 'Location', 'Pages Per Day']
     s2 = "selected"
 
@@ -58,11 +62,12 @@ def pages_last_year():
     s4 = "selected"
     return render_template('index.html', output=output, column_names=column_names, s4=s4)
 
-@app.route('/printer/<printer_name>')
-def printer_detail(printer_name):
+@app.route('/printer/<printer_id>')
+def printer_detail(printer_id:int):
     # Find the printer data by name
     functions = Main()
     printer_names = functions.get_printer_names()
+    plot_img = functions.plot_jams(printer_id)
 
     photos = {
         "HP Color LaserJet CP4025":"hp_cp4025.jpg",
@@ -83,13 +88,14 @@ def printer_detail(printer_name):
         "HP LaserJet 2430": "hp_2430.jpg",
     }
 
-    printer = next((p for p in printer_names if p == printer_name), None)
-    if printer:
-        printer_model = functions.get_printer_model(printer)
-        location = functions.get_printer_location(printer)
+    printer_name = functions.db_access.get_printer_name(printer_id)
+    printer_model = functions.get_printer_model(printer_id)
+    location = functions.get_printer_location(printer_id)
+    printer_jams = functions.get_jams_for_printer(printer_id)
+    if printer_name in printer_names:
         if printer_model in photos:
             photo = photos[printer_model]
-        return render_template('printer.html', printer=printer, printer_model=printer_model, photo=photo, location=location)
+        return render_template('printer.html', printer_name=printer_name, printer_model=printer_model, photo=photo, location=location, printer_jams=printer_jams, plot_img=plot_img)
     else:
         return "Printer not found", 404
     
