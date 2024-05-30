@@ -95,7 +95,7 @@ def printer_detail(printer_id:int):
     if printer_name in printer_names:
         if printer_model in photos:
             photo = photos[printer_model]
-        return render_template('printer.html', printer_name=printer_name, printer_model=printer_model, photo=photo, location=location, printer_jams=printer_jams, plot_img=plot_img)
+        return render_template('printer.html', printer_name=printer_name, printer_model=printer_model, photo=photo, location=location, printer_jams=printer_jams, plot_img=plot_img )
     else:
         return "Printer not found", 404
     
