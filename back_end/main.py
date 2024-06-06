@@ -43,6 +43,9 @@ class Main:
     def get_printer_jams(self):
         return self.printer_report.make_jams_table(self.printer_report.make_jam_data(self.printer_ids))
     
+    def get_printer_jams_since(self, date:str):
+        return self.printer_report.make_jams_table(self.printer_report.make_jam_data_since(self.printer_ids, date))
+    
     def get_jams_for_printer(self, printer_id:int):
         return self.jam_db.get_jams_for_printer(printer_id)
     

@@ -104,7 +104,44 @@ def jams():
     functions = Main()
     output = functions.get_printer_jams()
     column_names = ['Rank', 'Printer Name', 'Location', 'Jam Count']
-    return render_template('index.html', output=output, column_names=column_names)
+    s0 = "selected"
+    return render_template('jams.html', output=output, column_names=column_names, s0=s0)
+
+@app.route('/jams-week')
+def jams_last_week():
+    functions = Main() 
+    last_week = datetime.datetime.now() - datetime.timedelta(days=7)
+    output = functions.get_printer_jams_since(last_week.strftime("%Y-%m-%d"))
+    column_names = ['Rank', 'Printer Name', 'Location', 'Jam Count']
+    s1 = "selected"
+    return render_template('jams.html', output=output, column_names=column_names, s1=s1)
+
+@app.route('/jams-day')
+def jams_last_day():
+    functions = Main()
+    last_day = datetime.datetime.now() - datetime.timedelta(days=1)
+    output = functions.get_printer_jams_since(last_day.strftime("%Y-%m-%d"))
+    column_names = ['Rank', 'Printer Name', 'Location', 'Jam Count']
+    s2 = "selected"
+    return render_template('jams.html', output=output, column_names=column_names, s2=s2)
+
+@app.route('/jams-month')
+def jams_last_month():
+    functions = Main()
+    last_month = datetime.datetime.now() - datetime.timedelta(days=30)
+    output = functions.get_printer_jams_since(last_month.strftime("%Y-%m-%d"))
+    column_names = ['Rank', 'Printer Name', 'Location', 'Jam Count']
+    s3 = "selected"
+    return render_template('jams.html', output=output, column_names=column_names, s3=s3)
+
+@app.route('/jams-year')
+def jams_last_year():
+    functions = Main()
+    last_year = datetime.datetime.now() - datetime.timedelta(days=365)
+    output = functions.get_printer_jams_since(last_year.strftime("%Y-%m-%d"))
+    column_names = ['Rank', 'Printer Name', 'Location', 'Jam Count']
+    s4 = "selected"
+    return render_template('jams.html', output=output, column_names=column_names, s4=s4)
 
 if __name__ == '__main__':
     app.run(debug=True)

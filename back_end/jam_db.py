@@ -30,6 +30,13 @@ class JamDB:
         cursor.execute("INSERT INTO jams (printer_id, jam_count, date) VALUES (?, ?, ?)", (printer_id, jam_count, date))
         conn.commit()
         conn.close()
+
+    def update_jam_count(self, printer_id, jam_count, date):
+        conn = sqlite3.connect('jam.db') 
+        cursor = conn.cursor()
+        cursor.execute("UPDATE jams SET jam_count = ? WHERE printer_id = ? AND date = ?", (jam_count, printer_id, date))
+        conn.commit()
+        conn.close()
     
     def get_jam_count_on_day(self, printer_id, date):
         cursor = self.conn.cursor() 
@@ -46,6 +53,18 @@ class JamDB:
             if self.get_jam_count_on_day(printer_id, todays_date) == None:
                 jam_count = self.db_access.get_jam_count(printer_id)
                 self.add_jam(printer_id, jam_count, todays_date)
+            elif self.get_jam_count_on_day(printer_id, todays_date) != self.db_access.get_jam_count(printer_id):
+                jam_count = self.db_access.get_jam_count(printer_id)
+                self.update_jam_count(printer_id, jam_count, todays_date)
+
+    
+    def get_jam_count_since(self, printer_id, date):
+        today = datetime.datetime.now().strftime("%Y-%m-%d")
+        #get today's jam count, subtract the jam count on the date given
+        today_count = self.get_jam_count_on_day(printer_id, today)
+        date_count = self.get_jam_count_on_day(printer_id, date)
+        return today_count - date_count
+
  
 
     def get_jams_for_printer(self, printer_id):

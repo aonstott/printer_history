@@ -1,5 +1,6 @@
 from .Credentials import Credentials
 from .DBAccess import DBAccess
+from .jam_db import JamDB
 import matplotlib.pyplot as plt
 import datetime
 import queue
@@ -31,6 +32,16 @@ class PrinterReport:
         data = {}
         for printer_id in printer_ids:
             jams_num = self.db_access.get_jam_count(printer_id)
+            data[printer_id] = jams_num
+        #sort by highest jam count
+        data = dict(sorted(data.items(), key=lambda item: item[1], reverse=True))
+        return data
+    
+    def make_jam_data_since(self, printer_ids:list, date:str):
+        data = {}
+        jam_db = JamDB(self.db_access)
+        for printer_id in printer_ids:
+            jams_num = jam_db.get_jam_count_since(printer_id, date)
             data[printer_id] = jams_num
         #sort by highest jam count
         data = dict(sorted(data.items(), key=lambda item: item[1], reverse=True))
